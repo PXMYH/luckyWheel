@@ -23,9 +23,16 @@
             font-size: 18px;
         }
 
-        #canvas {
+        #canvas-container {
+            position: relative;
             margin-top: 20px;
+        }
+
+        #canvas {
+            display: block;
+            margin: 0 auto;
             border: 1px solid black;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -34,7 +41,9 @@
         <h1>Spin Wheel</h1>
         <div class="result" id="result"></div>
         <button class="spin-button" onclick="spinWheel()">Spin</button>
-        <canvas id="canvas" width="300" height="300"></canvas>
+        <div id="canvas-container">
+            <canvas id="canvas" width="300" height="300"></canvas>
+        </div>
     </div>
 
     <script src="script.js"></script>
