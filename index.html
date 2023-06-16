@@ -5,7 +5,7 @@
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="pragma" content="no-cache">
-    
+
     <style>
         /* Add CSS styles for the spin wheel UI */
         .container {
@@ -22,6 +22,11 @@
             padding: 10px 20px;
             font-size: 18px;
         }
+
+        #canvas {
+            margin-top: 20px;
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
@@ -29,6 +34,7 @@
         <h1>Spin Wheel</h1>
         <div class="result" id="result"></div>
         <button class="spin-button" onclick="spinWheel()">Spin</button>
+        <canvas id="canvas" width="300" height="300"></canvas>
     </div>
 
     <script src="script.js"></script>
