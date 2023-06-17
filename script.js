@@ -71,15 +71,14 @@ function spinWheel() {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         displayOptions(
-            ctx,
-            options,
-            angle,
-            rotationOffset,
-            wheelRadius,
-            centerX,
-            centerY
+          ctx,
+          options,
+          angle,
+          rotationOffset,
+          wheelRadius,
+          centerX,
+          centerY
         );
-        });
 
         if (elapsedTime < duration) {
           requestAnimationFrame(animateWheel);
