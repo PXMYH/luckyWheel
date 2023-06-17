@@ -9,25 +9,26 @@ function spinWheel() {
             var canvas = document.getElementById("canvas");
             var ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
             var wheelRadius = canvas.width / 2;
             var centerX = canvas.width / 2;
             var centerY = canvas.height / 2;
 
-            var angle = 2 * Math.PI / options.length;
+            var angle = (2 * Math.PI) / options.length;
+            var rotationOffset = -Math.PI / 2; // Offset to make the text start from the top
 
             ctx.font = "16px Arial";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
             options.forEach((option, index) => {
-                var optionAngle = index * angle;
-                var x = centerX + wheelRadius * Math.cos(optionAngle);
-                var y = centerY + wheelRadius * Math.sin(optionAngle);
+                var optionAngle = index * angle + rotationOffset;
+                var x = centerX + (wheelRadius - 20) * Math.cos(optionAngle);
+                var y = centerY + (wheelRadius - 20) * Math.sin(optionAngle);
 
                 ctx.save();
                 ctx.translate(x, y);
-                ctx.rotate(optionAngle + Math.PI / 2); // Adjust rotation to make text face outward
+                ctx.rotate(optionAngle + Math.PI); // Rotate the text to point inward
                 ctx.fillText(option, 0, 0);
                 ctx.restore();
             });
@@ -46,13 +47,13 @@ function spinWheel() {
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 options.forEach((option, index) => {
-                    var optionAngle = index * (Math.PI * 2 / options.length) + angle;
-                    var x = centerX + wheelRadius * Math.cos(optionAngle);
-                    var y = centerY + wheelRadius * Math.sin(optionAngle);
+                    var optionAngle = index * (Math.PI * 2 / options.length) + angle + rotationOffset;
+                    var x = centerX + (wheelRadius - 20) * Math.cos(optionAngle);
+                    var y = centerY + (wheelRadius - 20) * Math.sin(optionAngle);
 
                     ctx.save();
                     ctx.translate(x, y);
-                    ctx.rotate(optionAngle + Math.PI / 2);
+                    ctx.rotate(optionAngle + Math.PI);
                     ctx.fillText(option, 0, 0);
                     ctx.restore();
                 });
