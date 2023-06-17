@@ -70,18 +70,15 @@ function spinWheel() {
         );
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        options.forEach((option, index) => {
-          var optionAngle = index * ((Math.PI * 2) / options.length) + angle;
-          var x = centerX + wheelRadius * Math.cos(optionAngle);
-          var y = centerY + wheelRadius * Math.sin(optionAngle);
-
-          ctx.save();
-          ctx.translate(x, y);
-          ctx.rotate(optionAngle - Math.PI / 2); // Rotate the text to point inward
-          ctx.textAlign = 'center'; // Set the text alignment to center
-          ctx.textBaseline = 'middle'; // Set the text baseline to middle for inward pointing text
-          ctx.fillText(option, 0, 0);
-          ctx.restore();
+        displayOptions(
+            ctx,
+            options,
+            angle,
+            rotationOffset,
+            wheelRadius,
+            centerX,
+            centerY
+        );
         });
 
         if (elapsedTime < duration) {
