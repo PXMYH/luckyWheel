@@ -23,17 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
-            options.forEach((option, index) => {
-                var optionAngle = index * angle + rotationOffset;
-                var x = centerX + (wheelRadius - 20) * Math.cos(optionAngle);
-                var y = centerY + (wheelRadius - 20) * Math.sin(optionAngle);
-
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(optionAngle + Math.PI); // Rotate the text to point inward
-                ctx.fillText(option, 0, 0);
-                ctx.restore();
-            });
+            displayOptions(ctx, options, angle, rotationOffset, wheelRadius, centerX, centerY);
         })
         .catch(error => console.error('Error:', error));
 });
@@ -110,4 +100,18 @@ function getTextMaxWidth(ctx, texts) {
         }
     });
     return maxWidth;
+}
+
+function displayOptions(ctx, options, angle, rotationOffset, wheelRadius, centerX, centerY) { 
+    options.forEach((option, index) => {
+        var optionAngle = index * angle + rotationOffset;
+        var x = centerX + (wheelRadius - 20) * Math.cos(optionAngle);
+        var y = centerY + (wheelRadius - 20) * Math.sin(optionAngle);
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(optionAngle + Math.PI); // Rotate the text to point inward
+        ctx.fillText(option, 0, 0);
+        ctx.restore();
+    }
 }
