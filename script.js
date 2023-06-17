@@ -10,7 +10,11 @@ function spinWheel() {
             var ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            var wheelRadius = canvas.width / 2;
+            var textMaxWidth = getTextMaxWidth(ctx, options);
+            var wheelRadius = textMaxWidth * 1.1; // Adjust the wheel radius based on the text length
+            canvas.width = wheelRadius * 2;
+            canvas.height = wheelRadius * 2;
+
             var centerX = canvas.width / 2;
             var centerY = canvas.height / 2;
 
@@ -74,4 +78,17 @@ function easeInOutCubic(t, b, c, d) {
     if (t < 1) return c / 2 * t * t * t + b;
     t -= 2;
     return c / 2 * (t * t * t + 2) + b;
+}
+
+// Helper function to calculate the maximum width of the text
+function getTextMaxWidth(ctx, texts) {
+    var maxWidth = 0;
+    ctx.font = "16px Arial";
+    texts.forEach(text => {
+        var width = ctx.measureText(text).width;
+        if (width > maxWidth) {
+            maxWidth = width;
+        }
+    });
+    return maxWidth;
 }
