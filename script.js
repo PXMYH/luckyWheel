@@ -75,7 +75,7 @@ function spinWheel() {
           ctx,
           options,
           angle,
-          rotationOffset,
+          0,
           wheelRadius,
           centerX,
           centerY,
