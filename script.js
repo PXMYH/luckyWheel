@@ -73,6 +73,7 @@ function spinWheel() {
                     ctx.save();
                     ctx.translate(x, y);
                     ctx.rotate(optionAngle + Math.PI / 2);
+                    ctx.textBaseline = "middle"; // Set the text baseline to middle for inward pointing text
                     ctx.fillText(option, 0, 0);
                     ctx.restore();
                 });
