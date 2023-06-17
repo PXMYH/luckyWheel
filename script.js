@@ -56,6 +56,7 @@ function spinWheel() {
 
             var centerX = canvas.width / 2;
             var centerY = canvas.height / 2;
+            var wheelRadius = canvas.width / 2 - 20; // Calculate wheel radius based on canvas size
 
             var startTime = null;
 
@@ -67,8 +68,8 @@ function spinWheel() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 options.forEach((option, index) => {
                     var optionAngle = index * (Math.PI * 2 / options.length) + angle;
-                    var x = centerX + (canvas.width / 2 - 20) * Math.cos(optionAngle);
-                    var y = centerY + (canvas.height / 2 - 20) * Math.sin(optionAngle);
+                    var x = centerX + wheelRadius * Math.cos(optionAngle);
+                    var y = centerY + wheelRadius * Math.sin(optionAngle);
 
                     ctx.save();
                     ctx.translate(x, y);
