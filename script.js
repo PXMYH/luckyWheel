@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
         rotationOffset,
         wheelRadius,
         centerX,
-        centerY
+        centerY,
+        true
       );
     })
     .catch((error) => console.error('Error:', error));
@@ -77,7 +78,8 @@ function spinWheel() {
           rotationOffset,
           wheelRadius,
           centerX,
-          centerY
+          centerY,
+          false
         );
 
         if (elapsedTime < duration) {
@@ -115,13 +117,20 @@ function displayOptions(
   ctx,
   options,
   angle,
-  rotationOffset,
+  rotationOffset = 0,
   wheelRadius,
   centerX,
-  centerY
+  centerY,
+  isStatic = true
 ) {
   options.forEach((option, index) => {
-    var optionAngle = index * angle + rotationOffset;
+    if (isStatic) {
+      // static page load
+      var optionAngle = index * angle + rotationOffset;
+    } else {
+      // spin wheel page
+      var optionAngle = index * ((Math.PI * 2) / options.length) + angle;
+    }
     var x = centerX + (wheelRadius - 20) * Math.cos(optionAngle);
     var y = centerY + (wheelRadius - 20) * Math.sin(optionAngle);
 
