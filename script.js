@@ -73,7 +73,8 @@ function spinWheel() {
 
                     ctx.save();
                     ctx.translate(x, y);
-                    ctx.rotate(optionAngle + Math.PI / 2);
+                    ctx.rotate(optionAngle - Math.PI / 2); // Rotate the text to point inward
+                    ctx.textAlign = "center"; // Set the text alignment to center
                     ctx.textBaseline = "middle"; // Set the text baseline to middle for inward pointing text
                     ctx.fillText(option, 0, 0);
                     ctx.restore();
@@ -88,6 +89,7 @@ function spinWheel() {
         })
         .catch(error => console.error('Error:', error));
 }
+
 
 // Easing function for smooth animation
 function easeInOutCubic(t, b, c, d) {
