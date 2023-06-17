@@ -34,57 +34,54 @@ document.addEventListener("DOMContentLoaded", function() {
                 ctx.fillText(option, 0, 0);
                 ctx.restore();
             });
+
+            // Call the spinWheel() function after options are fetched and rendered
+            spinWheel(options);
         })
         .catch(error => console.error('Error:', error));
 });
 
-function spinWheel() {
-    fetch('options.json')
-        .then(response => response.json())
-        .then(data => {
-            var options = data.options;
-            var selectedOption = options[Math.floor(Math.random() * options.length)];
-            document.getElementById("result").textContent = "You spun the wheel and got: " + selectedOption;
+function spinWheel(options) {
+    var selectedOption = options[Math.floor(Math.random() * options.length)];
+    document.getElementById("result").textContent = "You spun the wheel and got: " + selectedOption;
 
-            var canvas = document.getElementById("canvas");
-            var ctx = canvas.getContext("2d");
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
 
-            // Wheel animation
-            var duration = 5000; // Duration of the spin animation in milliseconds
-            var startAngle = Math.random() * Math.PI * 2; // Starting angle of rotation
-            var endAngle = startAngle + Math.PI * 2; // Ending angle of rotation
+    // Wheel animation
+    var duration = 5000; // Duration of the spin animation in milliseconds
+    var startAngle = Math.random() * Math.PI * 2; // Starting angle of rotation
+    var endAngle = startAngle + Math.PI * 2; // Ending angle of rotation
 
-            var centerX = canvas.width / 2;
-            var centerY = canvas.height / 2;
+    var centerX = canvas.width / 2;
+    var centerY = canvas.height / 2;
 
-            var startTime = null;
+    var startTime = null;
 
-            function animateWheel(timestamp) {
-                if (!startTime) startTime = timestamp;
-                var elapsedTime = timestamp - startTime;
-                var angle = easeInOutCubic(elapsedTime, startAngle, endAngle - startAngle, duration);
+    function animateWheel(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var elapsedTime = timestamp - startTime;
+        var angle = easeInOutCubic(elapsedTime, startAngle, endAngle - startAngle, duration);
 
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                options.forEach((option, index) => {
-                    var optionAngle = index * (Math.PI * 2 / options.length) + angle;
-                    var x = centerX + (canvas.width / 2 - 20) * Math.cos(optionAngle);
-                    var y = centerY + (canvas.height / 2 - 20) * Math.sin(optionAngle);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        options.forEach((option, index) => {
+            var optionAngle = index * (Math.PI * 2 / options.length) + angle;
+            var x = centerX + (canvas.width / 2 - 20) * Math.cos(optionAngle);
+            var y = centerY + (canvas.height / 2 - 20) * Math.sin(optionAngle);
 
-                    ctx.save();
-                    ctx.translate(x, y);
-                    ctx.rotate(optionAngle + Math.PI / 2);
-                    ctx.fillText(option, 0, 0);
-                    ctx.restore();
-                });
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(optionAngle + Math.PI / 2);
+            ctx.fillText(option, 0, 0);
+            ctx.restore();
+        });
 
-                if (elapsedTime < duration) {
-                    requestAnimationFrame(animateWheel);
-                }
-            }
-
+        if (elapsedTime < duration) {
             requestAnimationFrame(animateWheel);
-        })
-        .catch(error => console.error('Error:', error));
+        }
+    }
+
+    requestAnimationFrame(animateWheel);
 }
 
 // Easing function for smooth animation
