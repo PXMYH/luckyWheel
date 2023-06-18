@@ -82,6 +82,22 @@ function spinWheel() {
           false
         );
 
+        // Draw indicator
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(angle - Math.PI / 2); // Rotate the indicator based on the wheel rotation
+
+        ctx.beginPath();
+        ctx.moveTo(0, -indicatorLength / 2);
+        ctx.lineTo(indicatorWidth / 2, indicatorLength / 2);
+        ctx.lineTo(-indicatorWidth / 2, indicatorLength / 2);
+        ctx.closePath();
+
+        ctx.fillStyle = indicatorColor;
+        ctx.fill();
+
+        ctx.restore();
+
         if (elapsedTime < duration) {
           requestAnimationFrame(animateWheel);
         }
