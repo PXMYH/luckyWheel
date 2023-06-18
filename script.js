@@ -139,17 +139,5 @@ function displayOptions(
     ctx.rotate(optionAngle + Math.PI); // Rotate the text to point inward
     ctx.fillText(option, 0, 0);
     ctx.restore();
-
-    // Draw indicator
-    if (index === 0) {
-      var indicatorX = centerX + wheelRadius * Math.cos(optionAngle);
-      var indicatorY = centerY + wheelRadius * Math.sin(optionAngle);
-
-      ctx.beginPath();
-      ctx.arc(indicatorX, indicatorY, indicatorRadius, 0, Math.PI * 2);
-      ctx.fillStyle = indicatorColor;
-      ctx.fill();
-      ctx.closePath();
-    }
   });
 }
