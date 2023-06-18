@@ -58,10 +58,6 @@ function spinWheel() {
       var centerY = canvas.height / 2;
       var wheelRadius = canvas.width / 2 - 20; // Calculate wheel radius based on canvas size
 
-      var indicatorLength = wheelRadius * 0.4; // Length of the arrow indicator
-      var indicatorWidth = 10; // Width of the arrow indicator
-      var indicatorColor = 'red'; // Indicator color
-
       var startTime = null;
 
       function animateWheel(timestamp) {
@@ -75,43 +71,16 @@ function spinWheel() {
         );
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw wheel
-        options.forEach((option, index) => {
-          var optionAngle = index * ((Math.PI * 2) / options.length) + angle;
-
-          ctx.save();
-          ctx.translate(centerX, centerY);
-          ctx.rotate(optionAngle);
-
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(option, 0, -wheelRadius + 20);
-
-          ctx.restore();
-        });
-
-        // Draw indicator
-        ctx.save();
-        ctx.translate(centerX, centerY);
-        ctx.rotate(angle - Math.PI / 2); // Rotate the indicator based on the wheel rotation
-
-        ctx.beginPath();
-        ctx.moveTo(0, -wheelRadius - indicatorLength);
-        ctx.lineTo(
-          indicatorWidth / 2,
-          -wheelRadius - indicatorLength + indicatorWidth
+        displayOptions(
+          ctx,
+          options,
+          angle,
+          0,
+          wheelRadius,
+          centerX,
+          centerY,
+          false
         );
-        ctx.lineTo(
-          -indicatorWidth / 2,
-          -wheelRadius - indicatorLength + indicatorWidth
-        );
-        ctx.closePath();
-
-        ctx.fillStyle = indicatorColor;
-        ctx.fill();
-
-        ctx.restore();
 
         if (elapsedTime < duration) {
           requestAnimationFrame(animateWheel);
