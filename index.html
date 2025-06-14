@@ -5,34 +5,90 @@
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="pragma" content="no-cache">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         /* Add CSS styles for the spin wheel UI */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
         .container {
             text-align: center;
-            margin-top: 100px;
+            margin: 50px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 36px;
         }
         
         .result {
             font-size: 24px;
-            margin-bottom: 20px;
+            margin: 25px 0;
+            min-height: 40px;
+            padding: 10px;
+            color: #2c3e50;
+            font-weight: bold;
+            transition: all 0.3s ease;
         }
         
         .spin-button {
-            padding: 10px 20px;
-            font-size: 18px;
+            padding: 12px 30px;
+            font-size: 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .spin-button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        .spin-button:active {
+            transform: scale(0.95);
+        }
+        
+        .spin-button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         #canvas-container {
             position: relative;
-            margin-top: 20px;
+            margin: 30px auto;
+            max-width: 500px;
         }
 
         #canvas {
             display: block;
             margin: 0 auto;
-            border: 1px solid black;
             border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .spinning {
+            animation: pulse 1s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { opacity: 1; }
+            to { opacity: 0.8; }
         }
     </style>
 </head>
@@ -40,12 +96,35 @@
     <div class="container">
         <h1>Spin Wheel</h1>
         <div class="result" id="result"></div>
-        <button class="spin-button" onclick="spinWheel()">Spin</button>
+        <button class="spin-button" id="spin-button" onclick="spinWheel()">Spin</button>
         <div id="canvas-container">
-            <canvas id="canvas" width="300" height="300"></canvas>
+            <canvas id="canvas" width="500" height="500"></canvas>
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Handle button state for spinning
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.getElementById('spin-button');
+            const result = document.getElementById('result');
+            
+            // Override the onclick to handle UI updates
+            button.onclick = function() {
+                // Disable button during spin
+                button.disabled = true;
+                result.classList.add('spinning');
+                
+                // Call the actual spin function from script.js
+                spinWheel();
+                
+                // Re-enable after animation completes
+                setTimeout(() => {
+                    button.disabled = false;
+                    result.classList.remove('spinning');
+                }, 5000);
+            };
+        });
+    </script>
 </body>
 </html>
