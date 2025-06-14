@@ -104,10 +104,13 @@ function getWinningIndex(rotation, numOptions) {
   // Each segment size in degrees
   var segmentSize = 360 / numOptions;
   
-  // Calculate the winning index
-  // Adding 90 to offset from the top position (pointer is at top)
-  // We use numOptions - Math.floor() because the wheel rotates clockwise
-  return (numOptions - Math.floor(((normRotation + 90) % 360) / segmentSize)) % numOptions;
+  // Find which segment is at the top (pointer position)
+  // Important: We need to adjust by 270 degrees (not 90) because:
+  // 1. Our wheel's 0 degree is at 3 o'clock position (right side)
+  // 2. Our pointer is at 12 o'clock (top)
+  // 3. We need to adjust by 270 degrees counter-clockwise from 3 o'clock to reach 12 o'clock
+  // 4. We use Math.floor to get the index of the segment
+  return Math.floor(((normRotation + 270) % 360) / segmentSize) % numOptions;
 }
 
 // Draw indicator pointer
