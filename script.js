@@ -48,7 +48,7 @@ function spinWheel() {
   if (isSpinning) return; // Prevent multiple spins
   isSpinning = true;
   
-  document.getElementById('result').textContent = "Spinning...";
+  document.getElementById('result').textContent = ""; // Clear the result text
   
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
@@ -57,8 +57,24 @@ function spinWheel() {
   var centerY = canvas.height / 2;
   var wheelRadius = Math.min(centerX, centerY) - 20;
   
-  // Calculate spin properties
-  var spinAngle = Math.random() * 360 + 1800; // Spin at least 5 full rotations (1800 degrees)
+  // First, select the winning option randomly
+  var winningIndex = Math.floor(Math.random() * wheelOptions.length);
+  var selectedOption = wheelOptions[winningIndex];
+  console.log("Selected option: " + selectedOption + " (index: " + winningIndex + ")");
+  
+  // Calculate how much the wheel needs to rotate to land on this option
+  var segmentSize = 360 / wheelOptions.length; // Size of each segment in degrees
+  
+  // Calculate the target angle
+  // We need the selected segment to be at the top (270° from the 0° position at 3 o'clock)
+  // And we want the MIDDLE of the segment under the pointer (not the edge)
+  // So we add half a segment size to center it
+  var targetAngle = 270 - (winningIndex * segmentSize) - (segmentSize / 2);
+  targetAngle = targetAngle % 360; // Normalize to 0-360 range
+  
+  // Add additional full rotations (at least 5) for the spinning effect
+  var spinAngle = 1800 + Math.random() * 360 + targetAngle - (currentRotation % 360);
+  
   var duration = 5000; // Duration in milliseconds
   var startTime = null;
   var startAngle = currentRotation;
@@ -84,12 +100,12 @@ function spinWheel() {
     if (progress < 1) {
       requestAnimationFrame(animateWheel);
     } else {
-      // Animation complete - determine the winner
-      var winningIndex = getWinningIndex(currentRotation, wheelOptions.length);
-      var selectedOption = wheelOptions[winningIndex];
-      
-      document.getElementById('result').textContent = 'You got: ' + selectedOption;
+      // Animation complete - don't display any result text
       isSpinning = false;
+      
+      // Double-check the final position
+      var finalIndex = getWinningIndex(currentRotation, wheelOptions.length);
+      console.log("Final position: " + wheelOptions[finalIndex] + " (index: " + finalIndex + ")");
     }
   }
   
@@ -98,19 +114,24 @@ function spinWheel() {
 
 // Calculate the winning segment based on final rotation
 function getWinningIndex(rotation, numOptions) {
-  // Convert rotation to 0-360 range
+  // Convert rotation to 0-360 range (normalize)
   var normRotation = ((rotation % 360) + 360) % 360;
   
   // Each segment size in degrees
   var segmentSize = 360 / numOptions;
   
-  // Find which segment is at the top (pointer position)
-  // Important: We need to adjust by 270 degrees (not 90) because:
-  // 1. Our wheel's 0 degree is at 3 o'clock position (right side)
-  // 2. Our pointer is at 12 o'clock (top)
-  // 3. We need to adjust by 270 degrees counter-clockwise from 3 o'clock to reach 12 o'clock
-  // 4. We use Math.floor to get the index of the segment
-  return Math.floor(((normRotation + 270) % 360) / segmentSize) % numOptions;
+  // Calculate which segment is at the top (pointer position)
+  // The wheel is drawn with 0 degrees at 3 o'clock position (right side)
+  // and rotates clockwise, so we need to adjust by 270 degrees
+  // to find which segment is at the 12 o'clock (top) position
+  var index = Math.floor(((normRotation + 270) % 360) / segmentSize);
+  
+  // Log the exact calculations for debugging
+  console.log("Final rotation: " + normRotation.toFixed(2) + "°");
+  console.log("Segment size: " + segmentSize.toFixed(2) + "°");
+  console.log("Calculated index: " + index + " (" + wheelOptions[index % numOptions] + ")");
+  
+  return index % numOptions;
 }
 
 // Draw indicator pointer

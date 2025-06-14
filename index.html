@@ -33,12 +33,17 @@
         
         .result {
             font-size: 24px;
-            margin: 25px 0;
-            min-height: 40px;
-            padding: 10px;
+            height: 0;
+            overflow: hidden;
             color: #2c3e50;
             font-weight: bold;
             transition: all 0.3s ease;
+        }
+        
+        .result:not(:empty) {
+            height: auto;
+            margin: 25px 0;
+            padding: 10px;
         }
         
         .spin-button {
